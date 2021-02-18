@@ -8,6 +8,9 @@ class TypeProduct(models.Model):
     fieldsType = models.TextField();
     fieldsName = models.TextField();
 
+    def __str__(self):
+        return (self.name)
+
 class Novel(models.Model):
     price   = models.IntegerField();   
     name   = models.CharField(max_length=150);
@@ -16,7 +19,10 @@ class Novel(models.Model):
     ageLimit = models.IntegerField();
     pathPoster = models.TextField();
     typeProduct = models.ForeignKey(TypeProduct, on_delete=models.CASCADE, null=True);
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True);
+
+    def __str__(self):
+        return (self.name)
 
 
 class House(models.Model):
@@ -29,7 +35,10 @@ class House(models.Model):
    pathPoster = models.TextField();
    amountRoon = models.IntegerField();
    typeProduct = models.ForeignKey(TypeProduct, on_delete=models.CASCADE, null=True);
-   date_created = models.DateTimeField(auto_now_add=True)
+   date_created = models.DateTimeField(auto_now_add=True);
+
+   def __str__(self):
+        return (self.name)
 
 
    

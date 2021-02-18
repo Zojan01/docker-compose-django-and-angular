@@ -1,5 +1,5 @@
 from graphene_django.types import DjangoObjectType
-from .models import House,Novel, TypeProdcut
+from .models import House,Novel, TypeProduct
 
 class HouseType(DjangoObjectType):
     class Meta:
@@ -13,7 +13,7 @@ class NovelType(DjangoObjectType):
 
 class TypeProduct(DjangoObjectType):
     class Meta:
-        model = TypeProdcut
+        model = TypeProduct
         fields = '__all__'
 
 
