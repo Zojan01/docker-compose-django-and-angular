@@ -30,8 +30,7 @@ class House(models.Model):
    name    = models.CharField(max_length=150);
    condition = models.CharField(max_length=150);
    location = models.TextField();
-   sumary = models.TextField(null=False, blank=False);
-   production_year = models.DateField();
+   summary = models.TextField(null=False, blank=False);
    pathPoster = models.TextField();
    amountRoon = models.IntegerField();
    typeProduct = models.ForeignKey(TypeProduct, on_delete=models.CASCADE, null=True);
