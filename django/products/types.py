@@ -11,7 +11,7 @@ class NovelType(DjangoObjectType):
         model = Novel
         fields = '__all__'
 
-class TypeProdcut(DjangoObjectType):
+class TypeProduct(DjangoObjectType):
     class Meta:
         model = TypeProdcut
         fields = '__all__'
