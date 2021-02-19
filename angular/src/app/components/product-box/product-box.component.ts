@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-product-box',
-  templateUrl: './product-box.component.html',
-  styleUrls: ['./product-box.component.scss']
+  styleUrls: ['./product-box.component.scss'],
+  template: `
+   <div class="container">
+
+      <img src="{{product.api}}">
+      <h3>{{product.name}}</h3>
+      <p>Price:{{product.price}}</p>
+
+   </div>
+  `,
+
 })
-export class ProductBoxComponent implements OnInit {
+export class ProductBoxComponent{
+  @Input() product: any;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

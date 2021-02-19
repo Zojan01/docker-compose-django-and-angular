@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { ProductService } from './../../services/product.service';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-form-container',
   templateUrl: './form-container.component.html',
   styleUrls: ['./form-container.component.scss']
 })
-export class FormContainerComponent implements OnInit {
+export class FormContainerComponent implements OnInit,OnDestroy {
 
-  constructor() { }
+  subRoute!: any;
+  listTypes = [];
 
-  ngOnInit() {
+  constructor(private route: ActivatedRoute, private service: ProductService) { }
+
+  ngOnInit(): void {
+
+    this.subRoute = this.route.params.subscribe(data => console.log(data));
+    console.log('form-container'+ this.subRoute);
+
+    console.log("get type product");
+    this.service.getTypesProuct();
+  }
+
+  ngOnDestroy(): void{
+    this.subRoute.unsubscribe();
   }
 
 }

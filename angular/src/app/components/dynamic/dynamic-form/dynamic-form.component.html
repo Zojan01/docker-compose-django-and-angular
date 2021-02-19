@@ -1,3 +1,16 @@
-<p>
-  dynamic-form works!
-</p>
+<div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+    <div *ngFor="let formField of formFields" class="form-group">
+      <app-dynamic-form-input [input]="formField" [form]="form"></app-dynamic-form-input>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" [disabled]="form.valid">Save</button>
+    </div>
+  </form>
+
+  <div *ngIf="payLoad" class="form-group">
+    <strong>Here's the payload</strong><br>{{payLoad}}
+  </div>
+</div>

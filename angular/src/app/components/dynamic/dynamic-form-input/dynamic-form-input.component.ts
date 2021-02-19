@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FormField } from '../model/form-field';
 
 @Component({
   selector: 'app-dynamic-form-input',
   templateUrl: './dynamic-form-input.component.html',
   styleUrls: ['./dynamic-form-input.component.scss']
 })
-export class DynamicFormInputComponent implements OnInit {
+export class DynamicFormInputComponent{
 
-  constructor() { }
+  @Input() input: FormField<string>;
+  @Input() form: FormGroup;
 
-  ngOnInit() {
+  get isValid() {
+    return this.form.controls[this.input.key].valid;
   }
 
 }
