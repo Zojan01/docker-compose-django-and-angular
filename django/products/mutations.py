@@ -4,8 +4,8 @@ import graphene
 
 class CreateNovelMutation(graphene.Mutation):
     class Arguments:
-        name    =   graphene.String();
-        price   =   graphene.Int();
+        name    =   graphene.String(required=True);
+        price   =   graphene.Int(required=True);
         author  =   graphene.String();
         summary =   graphene.String();
         ageLimit = graphene.Int();
@@ -32,8 +32,8 @@ class CreateNovelMutation(graphene.Mutation):
 class UpdateNovelMutation(graphene.Mutation):
     class Arguments:
         id      = graphene.ID();
-        name    =   graphene.String();
-        price   =   graphene.Int();
+        name    =   graphene.String(required=True);
+        price   =   graphene.Int(required=True);
         author  =   graphene.String();
         summary =   graphene.String();
         ageLimit = graphene.Int();
@@ -74,8 +74,8 @@ class DeleteNovelMutation(graphene.Mutation):
 
 class CreateHouseMutation(graphene.Mutation):
     class Arguments:
-        name        = graphene.String();
-        price       = graphene.Int();
+        name        = graphene.String(required=True);
+        price       = graphene.Int(required=True);
         condition   = graphene.String();
         location    = graphene.String();
         sumary      = graphene.String();
@@ -105,8 +105,8 @@ class CreateHouseMutation(graphene.Mutation):
 class UpdateHouseMutation(graphene.Mutation):
     class Arguments:
         id          = graphene.ID()
-        name        = graphene.String();
-        price       = graphene.Int();
+        name        = graphene.String(required=True);
+        price       = graphene.Int(required=True);
         condition   = graphene.String();
         location    = graphene.String();
         sumary      = graphene.String();

@@ -1,11 +1,9 @@
 from products.mutations import CreateHouseMutation, CreateNovelMutation, CreateTypeProduct, DeleteHouseMutation, DeleteNovelMutation, DeleteTypeProduct,  UpdateHouseMutation, UpdateNovelMutation, UpdateTypeProduct
 from products.models import House, Novel , TypeProduct as kindProduct
 from .types import HouseType,NovelType,TypeProduct
-from .schema import *
 import graphene
 
 class Query(graphene.ObjectType):
-
     house        = graphene.Field(HouseType, id = graphene.Int());
     novel        = graphene.Field(NovelType, id = graphene.Int());
     typeProduct  = graphene.Field(TypeProduct, id = graphene.Int());
@@ -30,7 +28,6 @@ class Query(graphene.ObjectType):
 
 
 class Mutation(graphene.ObjectType):
-
     create_house = CreateHouseMutation.Field()
     update_house = UpdateHouseMutation.Field()
     delete_house = DeleteHouseMutation.Field()
