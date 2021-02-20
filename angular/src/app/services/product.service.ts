@@ -11,8 +11,6 @@ import { ProductModel } from '../models/product';
 })
 export class ProductService {
 
-constructor(public apollo: Apollo) { }
-
   typeProduct = `
   {
     typeProducts{
@@ -24,31 +22,18 @@ constructor(public apollo: Apollo) { }
   }
 `;
 
-  Product = gql`
-  {
-    typeProducts{
-      id
-      name
-      fieldsType
-      fieldsName
-    }
-  }
-`;
+
+constructor(public apollo: Apollo) { }
+
 
   queryAllProducts(tyP: string): any{
-
-    const products = this.createQuery(tyP+'s');
+    const products = this.createQuery(tyP+ 's');
 
     return this.apollo.query<any>({
       query:  gql(products)
     }).pipe(map(response => response.data));
 
   }
-
-
-
-
-
 
   getTypesProuct(): any{
     return this.apollo.query<ProductTypeModel>({
@@ -58,7 +43,7 @@ constructor(public apollo: Apollo) { }
 
 
 
-  createQuery(typeProduct: string): string{
+  createQueryAll(typeProduct: string): string{
     const query = `
       {
         ${typeProduct}{
@@ -75,6 +60,31 @@ constructor(public apollo: Apollo) { }
     return query;
   }
 
+  createQueryOne(type):string{
 
+    const query = `
+      {
+        ${type}
+          id
+          name
+          price
+          typeProduct {
+            id
+            name
+          }
+        }
+      }
+    `;
+    return query;
+
+  }
+
+  createQueryDelete():void{
+
+  }
+
+  createQueryUpdate():void{
+
+  }
 
 }
