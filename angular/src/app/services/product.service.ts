@@ -1,6 +1,9 @@
+import { ProductTypeModel } from './../models/product-type';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { first, map } from 'rxjs/operators';
+import { ProductModel } from '../models/product';
 
 
 @Injectable({
@@ -10,44 +13,64 @@ export class ProductService {
 
 constructor(public apollo: Apollo) { }
 
-  entry = `
+  typeProduct = `
   {
-    books{
-       id
-      titule
-      summary
-    }
-  }`;
-
-
-  typeProduct = gql`
-  {
-    typeProduct{
+    typeProducts{
       id
+      name
       fieldsType
       fieldsName
     }
   }
 `;
 
-  query(): void{
+  Product = gql`
+  {
+    typeProducts{
+      id
+      name
+      fieldsType
+      fieldsName
+    }
+  }
+`;
+
+  queryAllProducts(tyP: string): any{
+
+    const products = this.createQuery(tyP+'s');
+
+    return this.apollo.query<any>({
+      query:  gql(products)
+    }).pipe(map(response => response.data));
+
   }
 
-  mutation(): void{
+
+
+
+
+
+  getTypesProuct(): any{
+    return this.apollo.query<ProductTypeModel>({
+      query: gql(this.typeProduct),
+    });
   }
 
-  getTypesProuct(): void{
-     this.apollo.query<any>({
-      query:  gql`
+
+
+  createQuery(typeProduct: string): string{
+    const query = `
       {
-        novels {
-          name
+        ${typeProduct}{
           id
+          name
+          price
         }
       }
-    `,
-    }).subscribe(data => console.log(data));
+    `;
+    return query;
   }
+
 
 
 }

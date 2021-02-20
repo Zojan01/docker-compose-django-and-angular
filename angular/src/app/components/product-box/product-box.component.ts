@@ -1,3 +1,4 @@
+import { ProductModel } from './../../models/product';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   template: `
    <div class="container">
 
-      <img src="{{product.api}}">
+      <img src="">
       <h3>{{product.name}}</h3>
       <p>Price:{{product.price}}</p>
 
@@ -15,7 +16,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 })
 export class ProductBoxComponent{
-  @Input() product: any;
+  @Input() product: ProductModel;
 
   constructor() { }
 
