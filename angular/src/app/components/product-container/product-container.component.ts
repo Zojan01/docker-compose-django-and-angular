@@ -5,7 +5,6 @@ import { Route } from '@angular/compiler/src/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductTypeModel } from 'src/app/models/product-type';
-import { Z_ERRNO } from 'zlib';
 
 @Component({
   selector: 'app-product-container',
@@ -19,7 +18,6 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
   listProductType: ProductTypeModel[];
   listProduct!: ProductModel[];
   isLoading = true;
-  p = "que cosa";
 
   constructor(private route: ActivatedRoute,
               private service: ProductService,
@@ -27,7 +25,7 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
 
 
   goRouteProducts(typeP): void{
-    this.router.navigate(['./products',typeP]);
+    this.router.navigate(['./products', typeP]);
   }
 
   goRouteAddProduct(): void{
@@ -44,15 +42,13 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
 
     this.service.getTypesProuct()
       .subscribe(
-        (response) => this.listProductType = response.data.typeProducts
-          .map(pt => new ProductTypeModel(pt)),
+        (response) => this.listProductType = response,
         (err) => console.log('Error ' + err),
-        () => console.log(this.listProductType)
+        () => console.log('listi product'+this.listProductType)
       );
 
-
     this.service.queryAllProducts('novel').subscribe(
-      response => this.listProduct = response['novel' +'s'].map(pr => new ProductModel(pr)),
+      response => this.listProduct = response,
       (err) => console.log ('Error'+ err),
       () => this.isLoading = false
     );

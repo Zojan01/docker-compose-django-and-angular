@@ -1,3 +1,4 @@
+import { Apollo } from 'apollo-angular';
 import { ProductService } from './../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -9,18 +10,37 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class FormContainerComponent implements OnInit, OnDestroy {
 
-  typeProduct!: any;
+
   subRoute!: any;
-  listProductTypes = [];
-  listProduct = [];
+  typeProduct!: string;
+  idProduct!: string;
+
   isLoading = true;
 
-  constructor(private route: ActivatedRoute, private service: ProductService){ }
+  method():void{
+
+
+
+  }
+
+
+ //aqui es que yo tengo que agarrar y pasar el el los controles el generador de forms;
+
+
+  constructor(private route: ActivatedRoute, private service: ProductService,public apollo:Apollo ){ }
+
 
 
   ngOnInit(): void {
-    this.subRoute = this.route.params.subscribe(data => console.log(data));
-    console.log('form-container' + this.subRoute);
+
+    this.subRoute = this.route.params.
+    subscribe(data => {
+
+      this.idProduct = data.id;
+      this.typeProduct = data.type;
+
+    });
+
   }
 
   ngOnDestroy(): void{

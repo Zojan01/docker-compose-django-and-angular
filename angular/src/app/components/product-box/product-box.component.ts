@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
       <button (click)="goToEditProduct()">Delete</button>
    </div>
   `,
-
 })
 export class ProductBoxComponent{
   @Input() product: ProductModel;
@@ -23,8 +22,7 @@ export class ProductBoxComponent{
 
 
   deleteProduct(){
-      console.log("product id"+this.product.id + "  type product"+ this.product.typeProduct['name']);
-
+      console.log("product id"+this.product.pathPoster + "  type product"+ this.product.typeProduct['name']);
   }
 
 
