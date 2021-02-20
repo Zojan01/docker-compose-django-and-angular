@@ -65,6 +65,10 @@ constructor(public apollo: Apollo) { }
           id
           name
           price
+          typeProduct {
+            id
+            name
+          }
         }
       }
     `;

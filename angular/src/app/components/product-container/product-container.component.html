@@ -2,27 +2,29 @@
 <div *ngIf="isLoading === false">
 
 
-<div class="menubuttons">
-  <div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-<!--
-   <a *ngFor="let type of listProductType"
-   (click)="goRoute(type.name)" >
-   {{type.name}}>
-   </a> -->
+  <div class="menubuttons">
+    <div class="dropdown">
+    <button class="dropbtn">Dropdown</button>
+    <div class="dropdown-content">
 
-   <!-- <a *ngFor="let type of listProductType" [routerLink]="['..', 'type.name']">{{type.name}}</a>-->
+    <a *ngFor="let type of listProductType"
+    (click)="goRouteProducts(type.name)" >
+    {{type.name}}
+    </a>
 
+
+    </div>
+  </div>
+
+    <button class="btnAdd">New Product</button>
 
   </div>
-</div>
 
-  <button class="btnAdd">New Product</button>
-
-</div>
-
-
-<app-product-box *ngFor="let pr of listProduct" [product]="pr"> <app-product-box>
+  <div class="wrapper">
+    <app-product-box
+      *ngFor="let pr of listProduct"
+      [product]="pr">
+    </app-product-box>
+  </div>
 
 <div>

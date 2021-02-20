@@ -14,11 +14,12 @@ import { Z_ERRNO } from 'zlib';
 })
 export class ProductContainerComponent implements OnInit, OnDestroy {
 
-  typeProduct!: any;
+  typeProduct!: string;
   subRoute!: any;
   listProductType: ProductTypeModel[];
-  listProduct = [];
+  listProduct!: ProductModel[];
   isLoading = true;
+  p = "que cosa";
 
   constructor(private route: ActivatedRoute,
               private service: ProductService,
@@ -36,9 +37,10 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.subRoute = this.route.params.subscribe(
-      data => this.typeProduct = data.type
+      data => this.typeProduct = data.type,
+      (err)=> '',
+      () => console.log(this.typeProduct)
       );
-    console.log(this.subRoute);
 
     this.service.getTypesProuct()
       .subscribe(

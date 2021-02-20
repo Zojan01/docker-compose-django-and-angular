@@ -3,13 +3,15 @@ export class ProductModel{
   id: string;
   name: string;
   price: string;
-  pathPoster:string;
+  pathPoster: string;
+  typeProduct: Object;
 
   constructor(obj? : any){
     this.id         = obj && obj.id || null;
-    this.name = obj && obj.name || null;
-    this.price = obj && obj.price || null;
-    this.pathPoster       = obj && obj.pathPoster || null;
+    this.name       = obj && obj.name || null;
+    this.price      = obj && obj.price || null;
+    this.pathPoster  = obj && obj.pathPoster || null;
+    this.typeProduct = obj && obj.typeProduct || null;
   }
 
 
