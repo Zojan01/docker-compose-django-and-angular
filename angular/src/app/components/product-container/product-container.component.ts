@@ -36,20 +36,20 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
 
     this.subRoute = this.route.params.subscribe(
       data => this.typeProduct = data.type,
-      (err)=> '',
-      () => console.log(this.typeProduct)
+      (err) => '',
+      () => console.log(this.typeProduct +'had finished')
       );
 
     this.service.getTypesProuct()
       .subscribe(
         (response) => this.listProductType = response,
         (err) => console.log('Error ' + err),
-        () => console.log('listi product'+this.listProductType)
+        () => console.log('listi product' + this.listProductType)
       );
 
-    this.service.queryAllProducts('novel').subscribe(
+    this.service.queryAllProducts(this.typeProduct).subscribe(
       response => this.listProduct = response,
-      (err) => console.log ('Error'+ err),
+      (err) => console.log ('Error' + err),
       () => this.isLoading = false
     );
 

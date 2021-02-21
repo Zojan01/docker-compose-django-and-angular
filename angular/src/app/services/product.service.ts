@@ -11,22 +11,21 @@ import { ProductModel } from '../models/product';
 })
 export class ProductService {
 
-
   typeProducts: ProductTypeModel[];
-
 
   constructor(public apollo: Apollo) { }
 
 
   queryAllProducts(tyP: string): any{
-    const products = this.createQueryAll(tyP+ 's');
+    const products = tyP+'s';
+    const queryProducts = this.createQueryAll(products);
 
     return this.apollo.query<any>({
-      query:  gql(products)
-    }).pipe(map(response =>
-      response.data['novel' +'s'].map(
-        pr => new ProductModel(pr)))
-      );
+      query:  gql(queryProducts)
+    }).pipe(map(response => {
+      response = response.data;
+      return response[products].map( pr => new ProductModel(pr));
+    }))
 
   }
 
@@ -57,6 +56,7 @@ export class ProductService {
           id
           name
           price
+          pathPoster
           typeProduct {
             id
             name
@@ -66,8 +66,7 @@ export class ProductService {
     return query;
   }
 
-  createQueryOne(type,id,campos): string{
-
+  createQueryOne(type, id, campos): string{
     const query = `
     {
       ${type}(id: ${id}){
@@ -82,29 +81,28 @@ export class ProductService {
 
   }
 
-
-
-  createQueryUpdate():void{
-
+  mutationSave(type: string, campos: string, values: string ): void{
+    const product = this.createMutationSave(type, campos, values );
+    console.log(product);
   }
 
-  getOne(id: number, valores): void{
-    const newLocal = `novel(id:id){
-      id
-      name
-      price
-      author
-      summary
-      ageLimit
-      pathPoster
 
-      typeProduct{
-        id
-        name
-        fieldsType
+
+
+  createMutationSave(type: string, campos: string, values: any, ): string{
+    type = 'save' + type;
+    const query = `
+    {
+      ${type}(${JSON.parse(JSON.stringify(values))}){
+        ${campos}
+        typeProduct {
+          id
+          name
         }
       }
     }`;
+    return query;
+
   }
 
 

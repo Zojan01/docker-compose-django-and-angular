@@ -1,1 +1,4 @@
 <h1> Form Container </h1>
+<div *ngIf="isLoading === false">
+  <app-dynamic-form [isEdit]="isEdit" [productType]="typeProductObj" [formFields]="formFields | async "></app-dynamic-form>
+</div>

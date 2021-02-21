@@ -14,11 +14,11 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'form', pathMatch: 'full'},
+  {path: '', redirectTo: 'products', pathMatch: 'full'},
   {path: 'products',          component: ProductContainerComponent},
   {path: 'products/:type',    component: ProductContainerComponent},
   {path: 'product/:type',     component: FormContainerComponent},
-  {path: 'product/:id/:type', component: FormContainerComponent},
+  {path: 'product/:type/:id', component: FormContainerComponent},
 ];
 
 
@@ -30,6 +30,8 @@ const routes: Routes = [
     DynamicFormComponent,
     FormContainerComponent,
     DynamicFormInputComponent,
+    DynamicFormComponent,
+    DynamicFormInputComponent
   ],
   imports: [
     BrowserModule,

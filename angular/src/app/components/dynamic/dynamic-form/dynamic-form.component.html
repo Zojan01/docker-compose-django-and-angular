@@ -1,4 +1,7 @@
 <div>
+  <h1 *ngIf="isEdit">Edit {{productType.name}} </h1>
+  <h1 *ngIf="!isEdit">New {{productType.name}} </h1>
+
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
     <div *ngFor="let formField of formFields" class="form-group">

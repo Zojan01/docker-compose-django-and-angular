@@ -33,10 +33,11 @@
         <textarea class="form-control" [formControlName]="input.key" [id]="input.key" rows="5"></textarea>
       </div>
 
-      <div *ngSwitchCase="'numberarea'">
+      <div *ngSwitchCase="'number'">
         <label [attr.for]="input.key">{{input.label}}</label>
-        <textarea class="form-control" [formControlName]="input.key" [id]="input.key" rows="5"></textarea>
+        <input type="number" class="form-control" [formControlName]="input.key" [id]="input.key" rows="6">
       </div>
+
 
     </div>
 

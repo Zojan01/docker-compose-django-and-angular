@@ -1,7 +1,8 @@
+import { FormField } from './../components/dynamic/model/form-field';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { of } from 'rxjs';
-import { FormField } from '../components/dynamic/model/form-field';
+//import { FormField } from '../components/dynamic/model/form-field';
 
 
 
@@ -24,76 +25,45 @@ export class FormfieldControlService {
           break;
       }
       group[input.key] = validator.length > 0 ? new FormControl(input.value || '', validator)
-                                        : new FormControl(input.value || '');
+                              : new FormControl(input.value || '');
     });
 
     return new FormGroup(group);
   }
 
-  getFormFields() {
+  getFormFields(objList) {
 
-    const inputs: FormField<string>[] = [
+    let listTest = [{
 
-      new FormField<string>({
+      controlType: 'textbox',
+      key: 'name',
+      label: 'Insert the title',
+      required: true,
+      order: 1
+    },{
+
+      controlType: 'textbox',
+      key: 'asfasdf',
+      label: 'Condition of the place',
+      required: true,
+      order: 2
+    },{
+
+      controlType: 'textbox',
+      key: 'condition',
+      label: 'Condition of the place',
+      required: true,
+      order: 2
+    },{
+
         controlType: 'textbox',
-        key: 'name',
-        label: 'Name',
+        key: 'asfa',
+        label: 'Insert the title',
         required: true,
         order: 1
-      }),
+      }];
 
-      new FormField<string>({
-        controlType: 'textbox',
-        key: 'email',
-        label: 'Email',
-        type: 'email',
-        required: true,
-        validator: 'email',
-        order: 2
-      }),
-
-      new FormField<string>({
-        controlType: 'dropdown',
-        key: 'country',
-        label: 'Country',
-        options: [
-          {key: 'usa',  value: 'United States of America'},
-          {key: 'br',  value: 'Brazil'},
-          {key: 'other',   value: 'Other'}
-        ],
-        order: 3
-      }),
-
-      new FormField<string>({
-        controlType: 'checkbox',
-        key: 'agree',
-        label: 'I accept terms and services',
-        type: 'checkbox',
-        required: true,
-        order: 4
-      }),
-
-      new FormField<string>({
-        controlType: 'radio',
-        key: 'sex',
-        label: 'Sex',
-        type: 'radio',
-        options: [
-          {key: 'male',  value: 'Male'},
-          {key: 'female',  value: 'Female'}
-        ],
-        order: 5
-      }),
-
-      new FormField<string>({
-        controlType: 'textarea',
-        key: 'message',
-        label: 'Mesage',
-        type: 'textarea',
-        order: 6
-      })
-    ];
-
+    const inputs: FormField<string>[] = objList.map(obj => new FormField<string>(obj));
     return of(inputs.sort((a, b) => a.order - b.order));
   }
 

@@ -7,13 +7,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-box.component.scss'],
   template: `
    <div class="container">
-      <img src="{{product.pathPoster}}">
+      <img src="{{product.pathPoster}}" height="200" width="250">
       <h3>{{product.name}}</h3>
       <p>Price:{{product.price}}</p>
       <button (click)="deleteProduct()">Edit</button>
       <button (click)="goToEditProduct()">Delete</button>
    </div>
   `,
+
 })
 export class ProductBoxComponent{
   @Input() product: ProductModel;
@@ -21,16 +22,12 @@ export class ProductBoxComponent{
   constructor(public router: Router) { }
 
 
-  deleteProduct(){
-      console.log("product id"+this.product.pathPoster + "  type product"+ this.product.typeProduct['name']);
+  deleteProduct():void{
+      console.log('product id' + this.product.pathPoster + 'type product' + this.product.typeProduct['name']);
   }
 
-
-
   goToEditProduct(): void{
-    this.router.navigate(['./product' ,
-    this.product.id],
-    this.product.typeProduct[ 'name ']);
+   this.router.navigate(['./product' ,this.product.typeProduct['name'],this.product.id],);
   }
 
 
