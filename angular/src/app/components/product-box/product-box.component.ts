@@ -21,14 +21,12 @@ import { Router } from '@angular/router';
 export class ProductBoxComponent{
   @Input() product: ProductModel;
 
-
-
   constructor(public router: Router, public serviceProd: ProductService) { }
 
 
   deleteProduct():void{
 
-    const typeP = new ProductTypeModel(this.product.typeProduct)
+    const typeP = new ProductTypeModel(this.product.typeProduct);
 
     this.serviceProd.delteProduct(typeP, this.product.id )
     .subscribe(
@@ -39,7 +37,9 @@ export class ProductBoxComponent{
   }
 
   goToEditProduct(): void{
-   this.router.navigate(['./product' ,(this.product.typeProduct['name']).toLowerCase(),this.product.id],);
+   const typeProduct = new ProductTypeModel(this.product.typeProduct);
+
+   this.router.navigate(['./product' ,(typeProduct.name).toLowerCase(),this.product.id],);
   }
 
 

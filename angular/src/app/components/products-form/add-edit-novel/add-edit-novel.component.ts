@@ -89,8 +89,10 @@ export class AddEditNovelComponent implements OnInit {
           this.myForm.controls.pathPoster.setValue(data.pathPoster);
         },
         (err) => console.log('Error' + err),
-        () => this.isLoading = true
+        () => this.isLoading = false,
       );
+    }else{
+      this.isLoading = false;
     }
 
 
