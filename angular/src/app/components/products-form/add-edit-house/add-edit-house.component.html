@@ -1,3 +1,55 @@
-<p>
-  add-edit-house works!
-</p>
+<div class="container">
+
+  <div class="row">
+    <h1 *ngIf="!isEdit">Add  House</h1>
+    <h1 *ngIf="isEdit" >Edit House</h1>
+  </div>
+
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()"  >
+
+    <div class="row">
+      <label for="nameInput">Title</label>
+      <input type="text" id="nameInput" placeholder="Title" formControlName="name">
+    </div>
+
+
+    <div class="row">
+      <label for="priceInput">Price</label>
+      <input type="text" id="priceInput" placeholder="insert price of de product" formControlName="price">
+    </div>
+
+    <div class="row">
+      <label for="amountRoonInput">Amount Rooms</label>
+      <input type="text" id="amountRoonInput" placeholder="How many room have the house" formControlName="amountRoon">
+    </div>
+
+
+    <div class="row">
+      <label for="locationInput">Location</label>
+      <textarea type="text" id="locationInput" placeholder="Where it is ubicated" formControlName="location"></textarea>
+    </div>
+
+
+    <div class="row">
+      <label for="conditionInput">Location</label>
+      <textarea type="text" id="conditionInput" placeholder="Condition of the house" formControlName="condition"></textarea>
+    </div>
+
+
+
+    <div class="row">
+      <label for="summaryInput">Summary</label>
+      <textarea id="summaryInput" placeholder="Summary" formControlName="summary"> </textarea>
+    </div>
+
+    <div class="row">
+      <label for="pathPosterInput">Path Image</label>
+      <input type="text" id="pathPosterInput" placeholder="insert paht or url to the image" formControlName="pathPoster">
+    </div>
+
+
+    <button class="block" *ngIf="!isEdit" type="submit">Save</button>
+    <button class="block" *ngIf="isEdit" type="submit" >Edit</button>
+  </form>
+
+</div>

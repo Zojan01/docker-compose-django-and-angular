@@ -1,3 +1,47 @@
-<p>
-  add-edit-novel works!
-</p>
+<div class="container">
+
+
+  <div class="row">
+    <h1 *ngIf="!isEdit">Add Product</h1>
+    <h1 *ngIf="isEdit" >Edit Product</h1>
+    <h1>No se muestra</h1>
+  </div>
+
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" >
+
+    <div class="row">
+      <label for="nameInput">Name</label>
+      <input type="text" id="nameInput" placeholder="insert name of de product" formControlName="name">
+    </div>
+
+
+    <div class="row">
+      <label for="priceInput">Price</label>
+      <input type="number" id="priceInput" placeholder="insert price of de product" formControlName="price">
+    </div>
+
+    <div class="row">
+      <label for="ageLimitInput">Date</label>
+      <input type="number" id="ageLimitInput" placeholder="insert date of de product" formControlName="ageLimit">
+    </div>
+
+    <div class="row">
+      <label for="authorInput">Details</label>
+      <input type="text" id="authorInput" placeholder="insert details  of de product" formControlName="author">
+    </div>
+
+    <div class="row">
+      <label for="summaryInput">Details</label>
+      <input type="text" id="summaryInput" placeholder="insert details  of de product" formControlName="summary">
+    </div>
+
+    <div class="row">
+      <label for="pathPosterInput">Details</label>
+      <input type="text" id="pathPosterInput" placeholder="insert details  of de product" formControlName="pathPoster">
+    </div>
+
+    <button class="block" *ngIf="!isEdit" type="submit" [disabled]="form.valid">Save</button>
+    <button class="block" *ngIf="isEdit" type="submit" [disabled]="form.valid">Edit</button>
+  </form>
+
+</div>

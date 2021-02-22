@@ -1,3 +1,5 @@
+import { AddEditHouseComponent } from './components/products-form/add-edit-house/add-edit-house.component';
+import { AddEditNovelComponent } from './components/products-form/add-edit-novel/add-edit-novel.component';
 import { DynamicFormInputComponent } from './components/dynamic/dynamic-form-input/dynamic-form-input.component';
 import { DynamicFormComponent } from './components/dynamic/dynamic-form/dynamic-form.component';
 import { ProductBoxComponent } from './components/product-box/product-box.component';
@@ -17,8 +19,10 @@ const routes: Routes = [
   {path: '', redirectTo: 'products', pathMatch: 'full'},
   {path: 'products',          component: ProductContainerComponent},
   {path: 'products/:type',    component: ProductContainerComponent},
-  {path: 'product/:type',     component: FormContainerComponent},
-  {path: 'product/:type/:id', component: FormContainerComponent},
+  {path: 'product/house',     component: AddEditHouseComponent},
+  {path: 'product/house/:id',     component: AddEditHouseComponent},
+  {path: 'product/novel', component: AddEditNovelComponent},
+  {path: 'product/novel/:id', component: AddEditNovelComponent},
 ];
 
 
@@ -31,7 +35,9 @@ const routes: Routes = [
     FormContainerComponent,
     DynamicFormInputComponent,
     DynamicFormComponent,
-    DynamicFormInputComponent
+    DynamicFormInputComponent,
+    AddEditHouseComponent,
+    AddEditNovelComponent
   ],
   imports: [
     BrowserModule,
