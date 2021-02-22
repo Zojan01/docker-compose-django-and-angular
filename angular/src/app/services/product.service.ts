@@ -48,8 +48,7 @@ export class ProductService {
   getOneProduct(objTypeProduct:ProductTypeModel ,id): any{
 
     const query = this.CreateQueryOne(objTypeProduct, id);
-    console.log(id);
-    console.log(query);
+
 
     return this.apollo.query<any>({
       query: gql(query)
@@ -62,7 +61,7 @@ export class ProductService {
   postProduct(objTypeProduct: ProductTypeModel, valuesForm: any): any{
 
     const query = this.createMutationSave(objTypeProduct,valuesForm);
-    console.log(query);
+
 
     return this.apollo.mutate({
       mutation: gql(query)
@@ -72,7 +71,6 @@ export class ProductService {
 
   updateProduct(objTypeProduct: ProductTypeModel, valuesForm, id){
     const query = this.createMutationUpdate(objTypeProduct,valuesForm,id);
-    console.log(query);
 
     return this.apollo.mutate({
       mutation: gql(query)
@@ -81,7 +79,7 @@ export class ProductService {
 
   delteProduct(objTypeProduct: ProductTypeModel, id){
     const query = this.createMutationDelete(objTypeProduct,id);
-    console.log(query);
+
 
     return this.apollo.mutate({
       mutation: gql(query)
@@ -123,6 +121,8 @@ export class ProductService {
           typeProduct {
             id
             name
+          	fieldsType
+            fieldsName
           }
         }
       }`;

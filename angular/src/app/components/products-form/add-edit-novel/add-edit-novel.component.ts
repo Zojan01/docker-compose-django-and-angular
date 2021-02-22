@@ -14,7 +14,7 @@ export class AddEditNovelComponent implements OnInit {
 
   objTypeProduct: ProductTypeModel;
   myForm!: FormGroup;
-  isLoading = false;
+  isLoading = true;
   id!: string;
   isEdit = false;
   subRoute!: any;
@@ -26,7 +26,7 @@ export class AddEditNovelComponent implements OnInit {
     public serviceFuncs: FuncsService ) { }
 
 
-  save():void{
+  save(): void{
     const objForm = this.myForm.getRawValue();
     this.serviceProd.postProduct(this.objTypeProduct, objForm)
     .subscribe(
@@ -46,7 +46,7 @@ export class AddEditNovelComponent implements OnInit {
 
 
   onSubmit(){
-    if(this.isEdit === true){
+    if (this.isEdit === true){
       this.edit();
     }else{
       this.save();
@@ -58,10 +58,10 @@ export class AddEditNovelComponent implements OnInit {
     this.subRoute = this.route.params
     .subscribe(
       () => this.id = this.route.snapshot.params.id,
-      (err) => console.log('Erro '+err ),
+      (err) => console.log('Erro ' + err ),
 
     );
-    if (this.id){this.isEdit = true;}else{this.isEdit = false;}
+    if (this.id){this.isEdit = true; }else{this.isEdit = false; }
 
     this.objTypeProduct = this.serviceFuncs.getProductTypeObj('novel');
 
