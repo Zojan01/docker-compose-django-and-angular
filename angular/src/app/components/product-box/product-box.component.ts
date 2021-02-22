@@ -1,3 +1,5 @@
+import { ProductTypeModel } from './../../models/product-type';
+import { ProductService } from './../../services/product.service';
 import { ProductModel } from './../../models/product';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
       <h3>{{product.name}}</h3>
       <p>Price:{{product.price}}</p>
       <button (click)="deleteProduct()">Edit</button>
-      <button (click)="goToEditProduct()">Delete</button>
+      <button (click)="deleteProduct()">Delete</button>
    </div>
   `,
 
@@ -19,15 +21,25 @@ import { Router } from '@angular/router';
 export class ProductBoxComponent{
   @Input() product: ProductModel;
 
-  constructor(public router: Router) { }
+
+
+  constructor(public router: Router, public serviceProd: ProductService) { }
 
 
   deleteProduct():void{
-      console.log('product id' + this.product.pathPoster + 'type product' + this.product.typeProduct['name']);
+
+    const typeP = new ProductTypeModel(this.product.typeProduct)
+
+    this.serviceProd.delteProduct(typeP, this.product.id )
+    .subscribe(
+      () =>  '' ,
+      (err) => console.log('Error '+err),
+      () => console.log('Product Delete')
+    );
   }
 
   goToEditProduct(): void{
-   this.router.navigate(['./product' ,this.product.typeProduct['name'],this.product.id],);
+   this.router.navigate(['./product' ,(this.product.typeProduct['name']).toLowerCase(),this.product.id],);
   }
 
 

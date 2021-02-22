@@ -33,26 +33,23 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.subRoute = this.route.params.subscribe(
-      data => this.typeProduct = data.type,
+       data => this.typeProduct = data.type,
       (err) => '',
-      () => console.log(this.typeProduct +'had finished')
       );
 
     this.service.getTypesProuct()
       .subscribe(
-        (response) => this.listProductType = response,
+        (response) => {this.listProductType = response},
         (err) => console.log('Error ' + err),
         () => console.log('listi product' + this.listProductType)
       );
 
-    this.service.queryAllProducts(this.typeProduct).subscribe(
+    this.service.getAllProducts(this.typeProduct).subscribe(
       response => this.listProduct = response,
       (err) => console.log ('Error' + err),
       () => this.isLoading = false
     );
-
   }
 
   ngOnDestroy(): void{

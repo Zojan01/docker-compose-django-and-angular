@@ -1,3 +1,5 @@
+import { ProductTypeModel } from './../../../models/product-type';
+import { FuncsService } from './../../../services/funcs.service';
 import { ProductService } from './../../../services/product.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -10,24 +12,58 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AddEditNovelComponent implements OnInit {
 
-  myForm: FormGroup;
+  objTypeProduct: ProductTypeModel;
+  myForm!: FormGroup;
   isLoading = false;
-  id: string;
+  id!: string;
   isEdit = false;
+  subRoute!: any;
+
+  constructor(
+    private form: FormBuilder,
+    private route: ActivatedRoute,
+    public serviceProd: ProductService,
+    public serviceFuncs: FuncsService ) { }
 
 
-  constructor(private form: FormBuilder, private route: ActivatedRoute, private service: ProductService ) { }
+  save():void{
+    const objForm = this.myForm.getRawValue();
+    this.serviceProd.postProduct(this.objTypeProduct, objForm)
+    .subscribe(
+      () => console.log('Saved'),
+      () => console.log('Could not save product'),
+    );
+  }
+
+  edit(): void{
+    const objForm = this.myForm.getRawValue();
+    this.serviceProd.updateProduct(this.objTypeProduct, objForm, this.id)
+    .subscribe(
+      () => console.log('Edited'),
+      () => console.log('Could not edit product'),
+    );
+  }
 
 
   onSubmit(){
-    console.log(this.myForm.getRawValue())
+    if(this.isEdit === true){
+      this.edit();
+    }else{
+      this.save();
+    }
   }
 
 
   ngOnInit(): void {
+    this.subRoute = this.route.params
+    .subscribe(
+      () => this.id = this.route.snapshot.params.id,
+      (err) => console.log('Erro '+err ),
 
-    this.id = this.route.snapshot.params.id;
-    if (this.id){this.isEdit = true;}
+    );
+    if (this.id){this.isEdit = true;}else{this.isEdit = false;}
+
+    this.objTypeProduct = this.serviceFuncs.getProductTypeObj('novel');
 
     this.myForm = this.form.group({
       name: ['', Validators.required],
@@ -38,19 +74,26 @@ export class AddEditNovelComponent implements OnInit {
       pathPoster: ['', Validators.required],
     });
 
-    /*
     if (this.isEdit){
-      this.service.getUser(this.id).subscribe(
-        data =>{
+      this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
+      .subscribe(
+        (response) => {
+          const data = response.novel;
+          console.log(data);
+
           this.myForm.controls.name.setValue(data.name);
           this.myForm.controls.price.setValue(data.price);
-          this.myForm.controls.details.setValue(data.details);
-          this.myForm.controls.date.setValue(data.date);
-          }
+          this.myForm.controls.author.setValue(data.author);
+          this.myForm.controls.summary.setValue(data.summary);
+          this.myForm.controls.ageLimit.setValue(data.ageLimit);
+          this.myForm.controls.pathPoster.setValue(data.pathPoster);
+        },
+        (err) => console.log('Error' + err),
+        () => this.isLoading = true
       );
-    */
+    }
 
 
-    this.isLoading = true;
+
   }
 }

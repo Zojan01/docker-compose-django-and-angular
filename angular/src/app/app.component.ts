@@ -18,7 +18,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.tyProductObs.unsubscribe();
   }
 
 

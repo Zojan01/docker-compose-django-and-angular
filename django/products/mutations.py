@@ -69,7 +69,7 @@ class DeleteNovelMutation(graphene.Mutation):
         novel = Novel.objects.get(id = id);
         novel.delete();
         
-        return UpdateNovelMutation (novel = novel);
+        return 
 
 
 
@@ -80,8 +80,7 @@ class CreateHouseMutation(graphene.Mutation):
         price       = graphene.Int(required=True);
         condition   = graphene.String();
         location    = graphene.String();
-        sumary      = graphene.String();
-        production_year = graphene.Date();
+        summary      = graphene.String();
         pathPoster  = graphene.String();
         amountRoon  = graphene.Int();
         typeProduct = graphene.Int();
@@ -89,15 +88,14 @@ class CreateHouseMutation(graphene.Mutation):
     house = graphene.Field(HouseType)
 
     @classmethod
-    def mutate(cls,root,info,name,price,condition,location,sumary,production_year,pathPoster,amountRoon,typeProduct):
+    def mutate(cls,root,info,name,price,condition,location,summary,pathPoster,amountRoon,typeProduct):
         typeProductObj = KindProduct.objects.get(id=typeProduct);
         house = House(
             name        = name,
             price       = price,
             condition   = condition,
             location    = location,
-            sumary      = sumary,
-            production_year= production_year,
+            summary      = summary,
             pathPoster  = pathPoster,
             amountRoon  = amountRoon,
             typeProduct = typeProductObj,            );
@@ -112,8 +110,7 @@ class UpdateHouseMutation(graphene.Mutation):
         price       = graphene.Int(required=True);
         condition   = graphene.String();
         location    = graphene.String();
-        sumary      = graphene.String();
-        production_year = graphene.Date();
+        summary      = graphene.String();
         pathPoster  = graphene.String();
         amountRoon  = graphene.Int();
         typeProduct = graphene.Int();
@@ -121,7 +118,7 @@ class UpdateHouseMutation(graphene.Mutation):
     house = graphene.Field(HouseType)
 
     @classmethod
-    def mutate(cls,root,info,id,name,price,condition,location,sumary,production_year,pathPoster,amountRoon,typeProduct):
+    def mutate(cls,root,info,id,name,price,condition,location,summary,pathPoster,amountRoon,typeProduct):
         typeProductObj = KindProduct.objects.get(id=typeProduct);
         house = House.objects.get(id=id) ;
     
@@ -129,8 +126,7 @@ class UpdateHouseMutation(graphene.Mutation):
         house.price       = price;
         house.condition   = condition;
         house.location    = location;
-        house.sumary      = sumary;
-        house.production_year= production_year;
+        house.summary      = summary;
         house.pathPoster  = pathPoster;
         house.amountRoon  = amountRoon;
         house.typeProduct = typeProductObj;          

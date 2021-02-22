@@ -11,23 +11,8 @@ import { ProductModel } from '../models/product';
 })
 export class ProductService {
 
-  typeProducts: ProductTypeModel[];
 
   constructor(public apollo: Apollo) { }
-
-
-  queryAllProducts(tyP: string): any{
-    const products = tyP+'s';
-    const queryProducts = this.createQueryAll(products);
-
-    return this.apollo.query<any>({
-      query:  gql(queryProducts)
-    }).pipe(map(response => {
-      response = response.data;
-      return response[products].map( pr => new ProductModel(pr));
-    }))
-
-  }
 
   getTypesProuct(): any{
     return this.apollo.query<any>({
@@ -42,14 +27,92 @@ export class ProductService {
       }
     `}).pipe(map(
       response => {
-        this.typeProducts = response.data.typeProducts
+        return response.data.typeProducts
         .map(pt => new ProductTypeModel(pt));
-
-        return this.typeProducts;
       }));
   }
 
-  createQueryAll(typeProduct: string): string{
+  getAllProducts(tyP: string): any{
+    const products = tyP+'s';
+    const queryProducts = this.CreateQueryAll(products);
+
+    return this.apollo.query<any>({
+      query:  gql(queryProducts)
+    }).pipe(map(response => {
+      response = response.data;
+      return response[products].map( pr => new ProductModel(pr));
+    }))
+
+  }
+
+  getOneProduct(objTypeProduct:ProductTypeModel ,id): any{
+
+    const query = this.CreateQueryOne(objTypeProduct, id);
+    console.log(id);
+    console.log(query);
+
+    return this.apollo.query<any>({
+      query: gql(query)
+    }).pipe(map(
+      response => {
+        return response.data;
+      }));
+  }
+
+  postProduct(objTypeProduct: ProductTypeModel, valuesForm: any): any{
+
+    const query = this.createMutationSave(objTypeProduct,valuesForm);
+    console.log(query);
+
+    return this.apollo.mutate({
+      mutation: gql(query)
+    }).pipe(map(response => response.data));
+
+  }
+
+  updateProduct(objTypeProduct: ProductTypeModel, valuesForm, id){
+    const query = this.createMutationUpdate(objTypeProduct,valuesForm,id);
+    console.log(query);
+
+    return this.apollo.mutate({
+      mutation: gql(query)
+    }).pipe(map(response => response.data));
+  }
+
+  delteProduct(objTypeProduct: ProductTypeModel, id){
+    const query = this.createMutationDelete(objTypeProduct,id);
+    console.log(query);
+
+    return this.apollo.mutate({
+      mutation: gql(query)
+    }).pipe(map(response => response.data));
+  }
+
+
+
+
+
+
+
+  CreateQueryOne(objTypeProduct: ProductTypeModel, id: string): string{
+
+    const campos = objTypeProduct.fieldsName;
+    const type = objTypeProduct.name.toLowerCase();
+
+    const query = `
+    {
+      ${type}(id: ${id}){
+        ${campos}
+        typeProduct {
+          id
+          name
+        }
+      }
+    }`;
+    return query;
+  }
+
+  CreateQueryAll(typeProduct: string): string{
     const query = `
       {
         ${typeProduct}{
@@ -66,14 +129,21 @@ export class ProductService {
     return query;
   }
 
-  createQueryOne(type, id, campos): string{
+  createMutationSave(objTypeProduct: ProductTypeModel, valuesForm: any ): string{
+
+    const action = 'create' + objTypeProduct.name;
+    const campos = objTypeProduct.fieldsName;
+    const values = this.objToString(valuesForm) + `typeProduct:${objTypeProduct.id}`;
+
     const query = `
-    {
-      ${type}(id: ${id}){
-        ${campos}
-        typeProduct {
-          id
-          name
+    mutation createProduct{
+      ${action}(${values}){
+        ${objTypeProduct.name.toLowerCase()}{
+          ${campos}
+          typeProduct {
+            id
+            name
+          }
         }
       }
     }`;
@@ -81,29 +151,69 @@ export class ProductService {
 
   }
 
-  mutationSave(type: string, campos: string, values: string ): void{
-    const product = this.createMutationSave(type, campos, values );
-    console.log(product);
-  }
+  createMutationUpdate(objTypeProduct: ProductTypeModel, valuesForm, id): string{
+    const action = 'update' + objTypeProduct.name;
+    const campos = objTypeProduct.fieldsName;
+    const values = this.objToString(valuesForm) + `id:${id}, ` + `typeProduct:${objTypeProduct.id}`;
 
-
-
-
-  createMutationSave(type: string, campos: string, values: any, ): string{
-    type = 'save' + type;
     const query = `
-    {
-      ${type}(${JSON.parse(JSON.stringify(values))}){
-        ${campos}
-        typeProduct {
-          id
-          name
+    mutation updateProduct{
+      ${action}(${values}){
+        ${objTypeProduct.name.toLowerCase()}{
+          ${campos}
+          typeProduct {
+            id
+            name
+          }
         }
       }
     }`;
     return query;
 
   }
+
+  createMutationDelete(objTypeProduct: ProductTypeModel,id): string{
+    const action = 'delete' + objTypeProduct.name;
+    const values = `id:${id}`;
+
+    const query = `
+    mutation deleteProduct{
+      ${action}(${values}){
+        ${objTypeProduct.name.toLowerCase()}{
+          id
+          typeProduct {
+            id
+            name
+          }
+        }
+      }
+    }`;
+    return query;
+  }
+
+
+  objToString (obj): string {
+    let str = '';
+    if (typeof obj === 'object'){
+      for (let p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str += p + ':' + this.objToString (obj[p]) + ', ';
+        }
+      }
+    }else{
+      if (typeof obj === 'string'){return '"' + obj + '"'; }
+      else{return obj + ''; }
+    }
+    return str.substring(0, str.length - 1) + '';
+  }
+
+
+
+
+
+
+
+
 
 
 

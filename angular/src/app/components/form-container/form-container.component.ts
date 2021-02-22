@@ -46,7 +46,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
     this.subRoute = this.route.params
     .subscribe(
       (data) => { console.log(this.idProduct = data.id); console.log(this.typeProductName = data.type);},
-      (err)=> console.log('Error rute '+ err),
+      (err) => console.log('Error rute '+ err),
       () => {}
     );
 
@@ -62,7 +62,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
 
         if(this.idProduct === 'undefine' ){
           this.isEdit = false;
-          console.log('is igual a undifined')
+
         }else{
           this.isEdit = true;
           console.log('no es igual a undifined')
