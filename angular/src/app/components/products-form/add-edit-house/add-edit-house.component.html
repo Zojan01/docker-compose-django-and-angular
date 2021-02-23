@@ -48,8 +48,8 @@
     </div>
 
 
-    <button class="block" *ngIf="!isEdit" type="submit">Save</button>
-    <button class="block" *ngIf="isEdit" type="submit" >Edit</button>
+    <button class="block" *ngIf="!isEdit" type="submit" [disable]="!myForm.valid">Save</button>
+    <button class="block" *ngIf="isEdit" type="submit" [disable]="!myForm.valid" >Edit</button>
   </form>
 
 </div>

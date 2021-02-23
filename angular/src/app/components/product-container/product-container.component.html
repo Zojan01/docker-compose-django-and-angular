@@ -6,12 +6,10 @@
     <button class="dropbtn">Dropdown</button>
     <div class="dropdown-content">
 
-    <a *ngFor="let type of listProductType"
-    (click)="goRouteProducts(type.name)" >
-    {{type.name}}
-    </a>
-
-
+      <a *ngFor="let type of listProductType"
+      (click)="goRouteProducts(type.name)" >
+      {{type.name}}
+      </a>
     </div>
   </div>
 

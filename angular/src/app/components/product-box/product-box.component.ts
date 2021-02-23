@@ -28,7 +28,7 @@ export class ProductBoxComponent{
 
     const typeP = new ProductTypeModel(this.product.typeProduct);
 
-    this.serviceProd.delteProduct(typeP, this.product.id )
+    this.serviceProd.deleteProduct(typeP, this.product.id )
     .subscribe(
       () =>  '' ,
       (err) => console.log('Error ' + err),

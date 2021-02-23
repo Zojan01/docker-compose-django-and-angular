@@ -15,7 +15,7 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
 
   typeProduct!: string;
   subRoute!: any;
-  listProductType: ProductTypeModel[];
+  listProductType!: ProductTypeModel[];
   listProduct!: ProductModel[];
   isLoading = true;
 

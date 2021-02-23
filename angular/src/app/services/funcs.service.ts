@@ -9,14 +9,14 @@ import { ProductModel } from '../models/product';
 })
 export class FuncsService {
 
-    constructor(public apollo: Apollo) { }
+    constructor() { }
 
     typeProductList: ProductTypeModel[] = [
 
      new ProductTypeModel({
         id: 2,
-        name:'Novel',
-        fieldsName:'id name price author summary ageLimit pathPoster',
+        name: 'Novel',
+        fieldsName: 'id name price author summary ageLimit pathPoster',
         fieldsType: `[{"controlType":"textbox","key":"name","label":"Ingrese el titulo","required":true,"order":1},
         {"controlType":"textbox","key":"author","label":"Insert the name of the autor","required":true,"order":2},
         {"controlType":"number","key":"price","label":"Insert the price","required":true,"order":3},
@@ -26,8 +26,8 @@ export class FuncsService {
       }),
       new ProductTypeModel({
         id: 1,
-        name:'House',
-        fieldsName:'id name price condition location summary pathPoster amountRoon',
+        name: 'House',
+        fieldsName: 'id name price condition location summary pathPoster amountRoon',
         fieldsType: `[{"controlType":"textbox","key":"name","label":"Insert the title","required":true,"order":1},
         {"controlType":"number","key":"price","label":"Insert the price","required":true,"order":2},
         {"controlType":"number","key":"amountRoon","label":"Amount of rooms","required":"true","order":7},

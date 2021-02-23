@@ -46,7 +46,7 @@ export class AddEditHouseComponent implements OnInit {
   }
 
 
-  onSubmit(){
+  onSubmit(): void{
 
     if(this.isEdit === true){
       this.edit();
