@@ -13,7 +13,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'products', pathMatch: 'full'},
+  {path: '', redirectTo: 'products/novel', pathMatch: 'full'},
   {path: 'products',          component: ProductContainerComponent},
   {path: 'products/:type',    component: ProductContainerComponent},
   {path: 'product/house',     component: AddEditHouseComponent},

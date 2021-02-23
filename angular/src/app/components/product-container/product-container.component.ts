@@ -26,11 +26,11 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
 
 
   goRouteProducts(typeP): void{
-    this.router.navigate(['./products', typeP]);
+    this.router.navigate(['./products', typeP.toLowerCase()]);
   }
 
   goRouteAddProduct(): void{
-    this.router.navigate(['./product', this.typeProduct]);
+    this.router.navigate(['./product', this.typeProduct.toLowerCase()]);
   }
 
   ngOnInit(): void {

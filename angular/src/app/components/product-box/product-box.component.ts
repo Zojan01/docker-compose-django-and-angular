@@ -30,7 +30,7 @@ export class ProductBoxComponent{
 
     this.serviceProd.deleteProduct(typeP, this.product.id )
     .subscribe(
-      () =>  '' ,
+      () =>  console.log('Product Deleted') ,
       (err) => console.log('Error ' + err),
       () => console.log('Product Delete')
     );

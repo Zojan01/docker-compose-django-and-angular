@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'products',
     'corsheaders',
     'graphene_django',
-    
 ]
 
 MIDDLEWARE = [

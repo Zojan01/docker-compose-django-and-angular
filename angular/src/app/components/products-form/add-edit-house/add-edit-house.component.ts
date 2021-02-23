@@ -30,21 +30,25 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
 
   save(): void{
     const objForm = this.myForm.getRawValue();
-    console.log(objForm);
 
-    this.serviceProd.postProduct(this.objTypeProduct, objForm)
-    .subscribe(
-      () => console.log('saved'),
-      () => console.log('Could not save product'),
+    this.subscriptions.push(
+      this.serviceProd.postProduct(this.objTypeProduct, objForm)
+      .subscribe(
+        () => console.log('saved'),
+        () => console.log('Could not save product'),
+      )
     );
   }
 
   edit(): void{
     const objForm = this.myForm.getRawValue();
-    this.serviceProd.updateProduct(this.objTypeProduct, objForm, this.id)
-    .subscribe(
-      () => console.log('edited'),
-      () => console.log('Could not edit product'),
+
+    this.subscriptions.push(
+      this.serviceProd.updateProduct(this.objTypeProduct, objForm, this.id)
+      .subscribe(
+        () => console.log('edited'),
+        () => console.log('Could not edit product'),
+      )
     );
   }
 
