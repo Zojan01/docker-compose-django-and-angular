@@ -11,12 +11,11 @@ describe('Service: Funcs', () => {
     });
   });
 
-  it('It should return novel if it passes novel in the method', inject([FuncsService],(service: FuncsService) =>{
-    let typeproduct:ProductTypeModel = service.getProductTypeObj('novel');
+
+  it('It should return novel if it passes novel in the method', inject([FuncsService], (service: FuncsService) => {
+    let typeproduct: ProductTypeModel = service.getProductTypeObj('novel');
     expect(typeproduct.name.toLowerCase()).toEqual('novel');
   }));
-
-
 
   it('should ...', inject([FuncsService], (service: FuncsService) => {
     expect(service).toBeTruthy();

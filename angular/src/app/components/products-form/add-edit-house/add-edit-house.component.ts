@@ -1,22 +1,25 @@
 import { ProductTypeModel } from './../../../models/product-type';
 import { ProductService } from './../../../services/product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FuncsService } from 'src/app/services/funcs.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-house',
   templateUrl: './add-edit-house.component.html',
   styleUrls: ['./add-edit-house.component.scss']
 })
-export class AddEditHouseComponent implements OnInit {
+export class AddEditHouseComponent implements OnInit,OnDestroy {
 
+  subscriptions: Subscription[] = [];
   objTypeProduct!: ProductTypeModel;
   myForm!: FormGroup;
   isLoading = true;
   isEdit = false;
   id!: string;
+
 
   constructor(
     private form: FormBuilder,
@@ -58,7 +61,13 @@ export class AddEditHouseComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params.id;
+
+    let firstSub  = this.route.params
+    .subscribe(
+      () => this.id = this.route.snapshot.params.id,
+      (err) => console.log('Erro ' + err ),
+    );
+
     if (this.id){this.isEdit = true;}
 
     this.objTypeProduct = this.serviceFuncs.getProductTypeObj('house');
@@ -74,7 +83,7 @@ export class AddEditHouseComponent implements OnInit {
     });
 
     if (this.isEdit){
-      this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
+      let secondSub = this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
       .subscribe(
         (response) => {
           const  data = response.house;
@@ -89,12 +98,15 @@ export class AddEditHouseComponent implements OnInit {
         (err) => console.log('Error'+ err),
         () => this.isLoading = false
       );
+      this.subscriptions.push(secondSub);
     }
 
+    this.subscriptions.push(firstSub);
+  }
 
 
-
-
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
 

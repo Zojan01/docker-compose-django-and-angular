@@ -2,28 +2,32 @@ import { ProductTypeModel } from './../../../models/product-type';
 import { FuncsService } from './../../../services/funcs.service';
 import { ProductService } from './../../../services/product.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-novel',
   templateUrl: './add-edit-novel.component.html',
   styleUrls: ['./add-edit-novel.component.scss']
 })
-export class AddEditNovelComponent implements OnInit {
+export class AddEditNovelComponent implements OnInit, OnDestroy {
 
   objTypeProduct: ProductTypeModel;
+  subscriptions: Subscription[] = [];
   myForm!: FormGroup;
   isLoading = true;
   id!: string;
   isEdit = false;
-  subRoute!: any;
+
+
 
   constructor(
     private form: FormBuilder,
     private route: ActivatedRoute,
     public serviceProd: ProductService,
     public serviceFuncs: FuncsService ) { }
+
 
 
   save(): void{
@@ -55,12 +59,15 @@ export class AddEditNovelComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.subRoute = this.route.params
+
+
+    let firstSub  = this.route.params
     .subscribe(
       () => this.id = this.route.snapshot.params.id,
       (err) => console.log('Erro ' + err ),
-
     );
+
+
     if (this.id){this.isEdit = true; }else{this.isEdit = false; }
 
     this.objTypeProduct = this.serviceFuncs.getProductTypeObj('novel');
@@ -75,12 +82,10 @@ export class AddEditNovelComponent implements OnInit {
     });
 
     if (this.isEdit){
-      this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
+      let secondSub = this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
       .subscribe(
         (response) => {
           const data = response.novel;
-          console.log(data);
-
           this.myForm.controls.name.setValue(data.name);
           this.myForm.controls.price.setValue(data.price);
           this.myForm.controls.author.setValue(data.author);
@@ -91,11 +96,18 @@ export class AddEditNovelComponent implements OnInit {
         (err) => console.log('Error' + err),
         () => this.isLoading = false,
       );
+      this.subscriptions.push(secondSub);
+
     }else{
       this.isLoading = false;
     }
 
-
-
+    this.subscriptions.push(firstSub);
   }
+
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
 }

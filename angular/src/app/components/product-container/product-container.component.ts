@@ -5,6 +5,7 @@ import { Route } from '@angular/compiler/src/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductTypeModel } from 'src/app/models/product-type';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-container',
@@ -14,7 +15,7 @@ import { ProductTypeModel } from 'src/app/models/product-type';
 export class ProductContainerComponent implements OnInit, OnDestroy {
 
   typeProduct!: string;
-  subRoute!: any;
+  subscriptions: Subscription[] = [];
   listProductType!: ProductTypeModel[];
   listProduct!: ProductModel[];
   isLoading = true;
@@ -33,27 +34,35 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subRoute = this.route.params.subscribe(
-       data => this.typeProduct = data.type,
-      (err) => '',
-      );
 
-    this.service.getTypesProuct()
+    this.subscriptions.push(
+      this.route.params.subscribe(
+      data => this.typeProduct = data.type,
+      (err) => 'Error' +err,
+      )
+    );
+
+    this.subscriptions.push(
+      this.service.getTypesProuct()
       .subscribe(
-        (response) => {this.listProductType = response},
+        (response) => {this.listProductType = response;},
         (err) => console.log('Error ' + err),
         () => console.log('listi product' + this.listProductType)
-      );
+      )
+    );
 
-    this.service.getAllProducts(this.typeProduct).subscribe(
-      response => this.listProduct = response,
-      (err) => console.log ('Error' + err),
-      () => this.isLoading = false
+    this.subscriptions.push(
+      this.service.getAllProducts(this.typeProduct).subscribe(
+        response => this.listProduct = response,
+        (err) => console.log ('Error' + err),
+        () => this.isLoading = false
+      )
     );
   }
 
   ngOnDestroy(): void{
-    this.subRoute.unsubscribe();
+
+    this.subscriptions.forEach(subcription => subcription.unsubscribe());
 
   }
 }

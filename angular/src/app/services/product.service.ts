@@ -33,19 +33,21 @@ export class ProductService {
   }
 
   getAllProducts(tyP: string): any{
-    const products = tyP+'s';
+    const products = tyP + 's';
     const queryProducts = this.CreateQueryAll(products);
 
+
+    console.log(queryProducts)
     return this.apollo.query<any>({
       query:  gql(queryProducts)
     }).pipe(map(response => {
       response = response.data;
       return response[products].map( pr => new ProductModel(pr));
-    }))
+    }));
 
   }
 
-  getOneProduct(objTypeProduct:ProductTypeModel ,id): any{
+  getOneProduct(objTypeProduct: ProductTypeModel , id): any{
 
     const query = this.CreateQueryOne(objTypeProduct, id);
 
@@ -60,7 +62,7 @@ export class ProductService {
 
   postProduct(objTypeProduct: ProductTypeModel, valuesForm: any): any{
 
-    const query = this.createMutationSave(objTypeProduct,valuesForm);
+    const query = this.createMutationSave(objTypeProduct, valuesForm);
 
 
     return this.apollo.mutate({
@@ -70,15 +72,15 @@ export class ProductService {
   }
 
   updateProduct(objTypeProduct: ProductTypeModel, valuesForm, id){
-    const query = this.createMutationUpdate(objTypeProduct,valuesForm,id);
+    const query = this.createMutationUpdate(objTypeProduct, valuesForm, id);
 
     return this.apollo.mutate({
       mutation: gql(query)
     }).pipe(map(response => response.data));
   }
 
-  delteProduct(objTypeProduct: ProductTypeModel, id){
-    const query = this.createMutationDelete(objTypeProduct,id);
+  deleteProduct(objTypeProduct: ProductTypeModel, id){
+    const query = this.createMutationDelete(objTypeProduct, id);
 
 
     return this.apollo.mutate({
@@ -172,7 +174,7 @@ export class ProductService {
 
   }
 
-  createMutationDelete(objTypeProduct: ProductTypeModel,id): string{
+  createMutationDelete(objTypeProduct: ProductTypeModel, id): string{
     const action = 'delete' + objTypeProduct.name;
     const values = `id:${id}`;
 
@@ -192,10 +194,10 @@ export class ProductService {
   }
 
 
-  objToString (obj): string {
+  objToString(obj): string {
     let str = '';
     if (typeof obj === 'object'){
-      for (let p in obj) {
+      for (const p in obj) {
         if (obj.hasOwnProperty(p)) {
             str += p + ':' + this.objToString (obj[p]) + ', ';
         }
