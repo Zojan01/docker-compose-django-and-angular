@@ -24,25 +24,6 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
               private service: ProductService,
               public router: Router) { }
 
-  /*
-  goRouteProducts(typeP): void{
-    this.router.navigate(['./products', typeP.toLowerCase()]);
-  }
-
-  goRouteAddProduct(): void{
-    this.router.navigate(['./product', this.typeProduct.toLowerCase()]);
-  }*/
-
-
-  /*
-  getListTypeProduct(): Subscription{
-    return this.service.getTypesProuct()
-      .subscribe(
-        (response) => {this.listProductType = response;},
-        (err) => console.log('Error ' + err),
-        () => console.log('listi product' + this.listProductType)
-    );
-  }*/
 
   getListProduct(): Subscription{
     return this.service.getAllProducts(this.typeProduct).subscribe(
@@ -70,10 +51,6 @@ export class ProductContainerComponent implements OnInit, OnDestroy {
       (err) => 'Error' +err,
       )
     );
-
-    /*this.listSubcrip.push(
-      this.getListTypeProduct()
-    );*/
 
     this.listSubcrip.push(
       this.getListProduct()
