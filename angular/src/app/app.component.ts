@@ -6,19 +6,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'angular';
   tyProductObs!: any;
 
-  constructor( public service: ProductService){}
+  constructor(){}
 
 
   ngOnInit(): void {
-    this.tyProductObs = this.service.getTypesProuct();
   }
-
-  ngOnDestroy(): void {
-  }
-
 
 }

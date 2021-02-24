@@ -75,27 +75,6 @@ button:hover{
   grid-auto-rows: 400px;
   align-items: center;
   justify-items: center;
-
 }
 
-
-
-/*
-  <div class="menubuttons">
-    <div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
-    <div class="dropdown-content">
-
-      <a *ngFor="let type of listProductType"
-      (click)="goRouteProducts(type.name)" >
-      {{type.name}}
-      </a>
-    </div>
-  </div>
-
-    <button class="btnAdd" (click)="goRouteAddProduct()" >Add Products </button>
-
-  </div>
-
-*/
 
