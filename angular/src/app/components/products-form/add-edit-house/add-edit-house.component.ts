@@ -2,9 +2,12 @@ import { ProductTypeModel } from './../../../models/product-type';
 import { ProductService } from './../../../services/product.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FuncsService } from 'src/app/services/funcs.service';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
+
 
 @Component({
   selector: 'app-add-edit-house',
@@ -21,12 +24,50 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
   id!: string;
 
 
+
+
   constructor(
     private form: FormBuilder,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
     public serviceProd: ProductService,
-    public serviceFuncs: FuncsService ) { }
+    public serviceFuncs: FuncsService,
+    public router: Router ) { }
 
+  gotToProducts(): void {
+    const name = this.objTypeProduct.name;
+
+    this.router.navigateByUrl('/products', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['./products', name.toLowerCase()]);
+    });
+  }
+
+  restForm(): void{
+    this.myForm.reset();
+  }
+
+  openDialog(): void{
+
+    const typeAction = (this.isEdit) ? 'edited' : 'created';
+    const dialogRef = this.dialog.open(
+      DialogComponent,
+     {data: {typeProduct: this.objTypeProduct.name, typeAction }}
+     );
+
+    const suscriRef = dialogRef.afterClosed()
+    .subscribe(result => {
+      console.log(result);
+      if(result === 'true'){
+        this.restForm();
+      }else{
+        this.gotToProducts();
+      }
+
+    });
+
+    this.subscriptions.push(suscriRef);
+
+  }
 
   save(): void{
     const objForm = this.myForm.getRawValue();
@@ -34,7 +75,7 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
     this.subscriptions.push(
       this.serviceProd.postProduct(this.objTypeProduct, objForm)
       .subscribe(
-        () => console.log('saved'),
+        () => this.openDialog(),
         () => console.log('Could not save product'),
       )
     );
@@ -46,7 +87,7 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
     this.subscriptions.push(
       this.serviceProd.updateProduct(this.objTypeProduct, objForm, this.id)
       .subscribe(
-        () => console.log('edited'),
+        () => this.openDialog(),
         () => console.log('Could not edit product'),
       )
     );
@@ -54,25 +95,28 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
 
 
   onSubmit(): void{
-
-    if(this.isEdit === true){
-      this.edit();
+    if(this.myForm.invalid){
+      console.log("invalid form");
     }else{
-      this.save();
+
+      console.log("paso")
+      if (this.isEdit){ this.edit(); }
+      else{this.save(); }
     }
   }
 
 
-
   ngOnInit(): void {
 
-    let firstSub  = this.route.params
+    const firstSub  = this.route.params
     .subscribe(
-      () => this.id = this.route.snapshot.params.id,
+      () => {
+        this.id = this.route.snapshot.params.id;
+        if (this.id){this.isEdit = true; }else{ this.isEdit = false; }
+      },
       (err) => console.log('Erro ' + err ),
     );
 
-    if (this.id){this.isEdit = true;}
 
     this.objTypeProduct = this.serviceFuncs.getProductTypeObj('house');
 
@@ -87,7 +131,7 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
     });
 
     if (this.isEdit){
-      let secondSub = this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
+      const secondSub = this.serviceProd.getOneProduct(this.objTypeProduct, this.id)
       .subscribe(
         (response) => {
           const  data = response.house;
@@ -109,7 +153,7 @@ export class AddEditHouseComponent implements OnInit,OnDestroy {
   }
 
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 

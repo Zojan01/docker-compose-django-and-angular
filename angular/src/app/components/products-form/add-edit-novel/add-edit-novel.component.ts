@@ -3,8 +3,10 @@ import { FuncsService } from './../../../services/funcs.service';
 import { ProductService } from './../../../services/product.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-add-edit-novel',
@@ -20,62 +22,98 @@ export class AddEditNovelComponent implements OnInit, OnDestroy {
   id!: string;
   isEdit = false;
 
-
-
   constructor(
+    public dialog: MatDialog,
     private form: FormBuilder,
     private route: ActivatedRoute,
     public serviceProd: ProductService,
-    public serviceFuncs: FuncsService ) { }
+    public serviceFuncs: FuncsService,
+    public router: Router
+    ) { }
 
 
+  gotToProducts(): void{
+    const name = this.objTypeProduct.name;
+
+    this.router.navigateByUrl('/products', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['./products', name.toLowerCase()]);
+    });
+
+  }
+
+  restForm(): void{
+
+    this.myForm.reset();
+
+  }
 
   save(): void{
     const objForm = this.myForm.getRawValue();
-
-    this.subscriptions.push(
-      this.serviceProd.postProduct(this.objTypeProduct, objForm)
+    const suscriRef = this.serviceProd.postProduct(this.objTypeProduct, objForm)
       .subscribe(
-      () => console.log('Saved'),
+      () => this.openDialog(),
       () => console.log('Could not save product'),
-      )
-    );
+      );
+
+    this.subscriptions.push(suscriRef);
   }
 
   edit(): void{
     const objForm = this.myForm.getRawValue();
-
-
-    this.subscriptions.push(
-      this.serviceProd.updateProduct(this.objTypeProduct, objForm, this.id)
+    const suscriRef = this.serviceProd.updateProduct(this.objTypeProduct, objForm, this.id)
       .subscribe(
-        () => console.log('Edited'),
+        () => this.openDialog(),
         () => console.log('Could not edit product'),
-      )
-    );
+      );
+
+    this.subscriptions.push(suscriRef);
   }
 
+  onSubmit(): void{
 
-  onSubmit(){
-    if (this.isEdit === true){
-      this.edit();
+    if(this.myForm.invalid){
+
     }else{
-      this.save();
+      if (this.isEdit){ this.edit() }
+      else{this.save() };
     }
+  }
+
+  openDialog(): void{
+
+    const typeAction = (this.isEdit) ? 'edited' : 'created';
+    const dialogRef = this.dialog.open(
+      DialogComponent,
+     {data: {typeProduct: this.objTypeProduct.name, typeAction }}
+     );
+
+    const suscriRef = dialogRef.afterClosed()
+    .subscribe(result => {
+      console.log(result);
+      if(result === 'true'){
+        this.restForm();
+      }else{
+        this.gotToProducts();
+      }
+
+    });
+
+    this.subscriptions.push(suscriRef);
+
   }
 
 
   ngOnInit(): void {
 
-
-    let firstSub  = this.route.params
+    const firstSub  = this.route.params
     .subscribe(
-      () => this.id = this.route.snapshot.params.id,
+      () => {
+        this.id = this.route.snapshot.params.id;
+        if (this.id){this.isEdit = true; }else{this.isEdit = false; }
+      },
       (err) => console.log('Erro ' + err ),
     );
 
-
-    if (this.id){this.isEdit = true; }else{this.isEdit = false; }
 
     this.objTypeProduct = this.serviceFuncs.getProductTypeObj('novel');
 
@@ -113,7 +151,7 @@ export class AddEditNovelComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnDestroy() {
+  ngOnDestroy(): void{
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 

@@ -1,0 +1,58 @@
+.menu{
+  background-color: #068671;
+}
+
+nav {
+  display: table;
+  border-top: 1px solid #357F7F;
+  border-bottom: 1px solid #357F7F;
+}
+
+nav ul {
+  display: table-row;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+nav ul a {
+  display: block;
+  color: black;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+nav ul li {
+  position: relative;
+  display: inline-block;
+  display: table-cell;
+  width: 1%;
+  list-style-type: none;
+  text-align: center;
+}
+
+nav ul li:hover {
+  background-color: #068671;
+}
+
+nav ul li:hover a {
+  color: white;
+}
+
+nav ul ul{
+  display: none;
+  position: absolute;
+  background: #005f4f;
+  width: 100%;
+}
+
+nav ul ul li {
+  width: 100%;
+  display: inline-block;
+}
+
+nav ul li:hover > ul {
+  display: block;
+}

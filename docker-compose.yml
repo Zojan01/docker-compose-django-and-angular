@@ -1,0 +1,39 @@
+version: "3.9"
+   
+services:
+
+  database:
+    image: postgres
+    container_name: database
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    
+  backend:
+    container_name: backend
+    links:
+      - database
+    depends_on:
+      - database
+    build: 
+      context: ./django
+      dockerfile: Dockerfile
+    command: bash ./runapp.sh
+    ports:
+      - "8000:8000"
+    
+  
+  frontend:
+    container_name: frontend
+    links:
+      - backend
+    depends_on: 
+      - database
+      - backend
+    build: 
+      context: ./angular
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    

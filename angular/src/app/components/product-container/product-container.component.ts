@@ -14,55 +14,74 @@ import { Subscription } from 'rxjs';
 })
 export class ProductContainerComponent implements OnInit, OnDestroy {
 
-  typeProduct!: string;
-  subscriptions: Subscription[] = [];
-  listProductType!: ProductTypeModel[];
+  listSubcrip: Subscription[] = [];
+  //listProductType!: ProductTypeModel[];
   listProduct!: ProductModel[];
+  typeProduct!: string;
   isLoading = true;
 
   constructor(private route: ActivatedRoute,
               private service: ProductService,
               public router: Router) { }
 
-
+  /*
   goRouteProducts(typeP): void{
     this.router.navigate(['./products', typeP.toLowerCase()]);
   }
 
   goRouteAddProduct(): void{
     this.router.navigate(['./product', this.typeProduct.toLowerCase()]);
-  }
+  }*/
 
-  ngOnInit(): void {
 
-    this.subscriptions.push(
-      this.route.params.subscribe(
-      data => this.typeProduct = data.type,
-      (err) => 'Error' +err,
-      )
-    );
-
-    this.subscriptions.push(
-      this.service.getTypesProuct()
+  /*
+  getListTypeProduct(): Subscription{
+    return this.service.getTypesProuct()
       .subscribe(
         (response) => {this.listProductType = response;},
         (err) => console.log('Error ' + err),
         () => console.log('listi product' + this.listProductType)
-      )
     );
+  }*/
 
-    this.subscriptions.push(
-      this.service.getAllProducts(this.typeProduct).subscribe(
-        response => this.listProduct = response,
-        (err) => console.log ('Error' + err),
-        () => this.isLoading = false
-      )
+  getListProduct(): Subscription{
+    return this.service.getAllProducts(this.typeProduct).subscribe(
+      response => this.listProduct = response,
+      (err) => console.log ('Error' + err),
+      () => this.isLoading = false
     );
   }
 
+  onChange(): void{
+    this.listSubcrip.push(
+      this.getListProduct()
+    );
+
+  }
+
+  ngOnInit(): void {
+
+    this.listSubcrip.push(
+      this.route.params.subscribe(
+      data => {
+        this.typeProduct = data.type;
+        this.onChange();
+      },
+      (err) => 'Error' +err,
+      )
+    );
+
+    /*this.listSubcrip.push(
+      this.getListTypeProduct()
+    );*/
+
+    this.listSubcrip.push(
+      this.getListProduct()
+    );
+
+  }
+
   ngOnDestroy(): void{
-
-    this.subscriptions.forEach(subcription => subcription.unsubscribe());
-
+    this.listSubcrip.forEach(subcription => subcription.unsubscribe());
   }
 }

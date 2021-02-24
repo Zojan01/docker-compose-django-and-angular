@@ -36,8 +36,6 @@ export class ProductService {
     const products = tyP + 's';
     const queryProducts = this.CreateQueryAll(products);
 
-
-    console.log(queryProducts)
     return this.apollo.query<any>({
       query:  gql(queryProducts)
     }).pipe(map(response => {
