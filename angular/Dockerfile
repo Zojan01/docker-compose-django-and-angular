@@ -2,8 +2,8 @@ FROM node:latest as build
 WORKDIR /app
 COPY . .
 RUN npm install
+RUN npm install -g @angular/cli@1.7.1 --unsafe
 RUN npm run build --prod
-
 
 FROM nginx:latest
 COPY --from=build /app/dist/angular  /usr/share/nginx/html

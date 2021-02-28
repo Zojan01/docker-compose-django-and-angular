@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-product-box',
   styleUrls: ['./product-box.component.scss'],
   template: `
-   <div class="container">
+   <div class="product-box">
       <img src="{{product.pathPoster}}" height="200" width="250">
       <h3>{{product.name}}</h3>
       <p>Price:{{product.price}}</p>

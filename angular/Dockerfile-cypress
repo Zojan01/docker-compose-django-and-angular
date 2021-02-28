@@ -1,0 +1,14 @@
+FROM cypress/browsers:chrome65-ff57
+
+# set working directory
+WORKDIR ./
+
+# install cypress
+RUN npm install cypress --save-dev
+
+# copy cypress files and folders
+COPY /cypress
+COPY cypress.json
+
+# confirm the cypress install
+RUN ./node_modules/.bin/cypress verify
